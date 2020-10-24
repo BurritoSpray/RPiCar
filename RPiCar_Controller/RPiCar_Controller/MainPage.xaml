@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RPiCar_Controller.MainPage">
+    <StackLayout>
+        <ImageButton x:Name="ButtonImageTest" Source="left-arrow.png" AbsoluteLayout.LayoutBounds="0.5,0.5,100,100" AbsoluteLayout.LayoutFlags="PositionProportional"></ImageButton>
+            <Button x:Name="buttonMessageToServer"
+                    Clicked="buttonMessageToServer_Clicked"
+                    AbsoluteLayout.LayoutBounds="0.5,1,100,50"
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    Text="Send Message to server"></Button>
+            <Entry x:Name="EntryTest" HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand" Text="Enter Text Here"></Entry>
+        <AbsoluteLayout>
+            <Button x:Name="ButtonStop" Text="Stop" Clicked="ButtonStop_Clicked" Margin="10,10" CornerRadius="5" BorderColor="Aqua" BackgroundColor="BurlyWood"></Button>
+            <Button x:Name="ButtonForward" Text="Forward" Clicked="ButtonForward_Clicked" Margin="100,0" ></Button>
+            <Button x:Name="ButtonLeft" Text="Left" Clicked="ButtonLeft_Clicked" Margin="75,40" CornerRadius="5" BorderColor="Aqua" BackgroundColor="BlueViolet"></Button>
+        </AbsoluteLayout>
+    </StackLayout>
+
+</ContentPage>

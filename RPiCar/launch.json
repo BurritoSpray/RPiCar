@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "adapter": "c:\\users\\william\\appdata\\local\\microsoft\\visualstudio\\16.0_cf97208d\\extensions\\smbnovk3.0we\\plink.exe",
+  "adapterArgs": "-pw qazwsx pi@192.168.11.245:22  -batch -T vsdbg --interpreter=vscode",
+  "configurations": [
+    {
+      "name": ".NET Core Launch (console)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "dotnet",
+      "args": [
+        "RPiCar.exe",
+        ""
+      ],
+      "cwd": "./MonoDebugTemp/",
+      "console": "internalConsole",
+      "stopAtEntry": true
+    }
+  ]
+}
