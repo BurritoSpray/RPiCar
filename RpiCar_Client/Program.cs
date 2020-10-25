@@ -18,7 +18,6 @@ namespace RpiCar_Client
                 Console.Clear();
                 Console.WriteLine("Selectionner le mode de connection!\n1.Car\n2.Controller");
                 ConsoleKeyInfo choice = Console.ReadKey();
-                Console.WriteLine("\n");
                 if (choice.KeyChar.ToString() == "1")//Car choice
                 {
                     con = new Connection("Car", serverIP);
@@ -79,7 +78,7 @@ namespace RpiCar_Client
 
         private static void Con_MessageReceived(object sender, StringEventArgs e)
         {
-            Console.WriteLine(e.Message);
+
         }
 
         private static void Con_ConnectionSuccess(object sender, EventArgs e)
