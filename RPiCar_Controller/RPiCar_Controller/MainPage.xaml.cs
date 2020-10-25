@@ -21,12 +21,12 @@ namespace RPiCar_Controller
             con.Connect();
         }
 
-        private void Con_ConnectionLost(object sender, StringEventArgs e)
+        private void Con_ConnectionLost(object sender, ExceptionEventArgs e)
         {
             DisplayAlert("Erreur", "Connection perdu!", "OK");
         }
 
-        private void Con_ConnectionFailed(object sender, EventArgs e)
+        private void Con_ConnectionFailed(object sender, ExceptionEventArgs e)
         {
             DisplayAlert("Error", "Cant reach server....", "OK");
         }

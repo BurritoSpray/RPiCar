@@ -152,7 +152,6 @@ namespace RPiCar_Controller
         {
             while(!PingWorker.CancellationPending)
             {
-                Thread.Sleep(10000);
                 try
                 {
                     Ping ping = new Ping();
@@ -169,7 +168,7 @@ namespace RPiCar_Controller
                     OnPingErrorEvent(new ExceptionEventArgs(ex));
                     PingWorker.CancelAsync();
                 }
-                
+                Thread.Sleep(10000);
             }
         }
         //Fonction pour demarrer le PingWorker

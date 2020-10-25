@@ -8,23 +8,50 @@ namespace RpiCar_Client
     class Program
     {
         static bool isConnected = false;
-        static Connection con = new Connection("Car", "goy.ddns.net");
+        static Connection con;
+        static readonly string serverIP = "goy.ddns.net";
 
 
         static void Main(string[] args)
         {
-            con.MessageReceivedEvent += Con_MessageReceived;
-            con.ConnectionSuccessEvent += Con_ConnectionSuccess;
-            con.ConnectionLostEvent += Con_ConnectionLost;
-            con.ConnectionFailedEvent += Con_ConnectionFailedEvent;
-            con.PingErrorEvent += Con_PingErrorEvent;
-            con.PingEvent += Con_PingEvent;
+            while (true) {
+                Console.Clear();
+                Console.WriteLine("Selectionner le mode de connection!\n1.Car\n2.Controller");
+                ConsoleKeyInfo choice = Console.ReadKey();
+                Console.WriteLine("\n");
+                if (choice.KeyChar.ToString() == "1")//Car choice
+                {
+                    con = new Connection("Car", serverIP);
+                }
+                else if(choice.KeyChar.ToString() == "2")//Controller
+                {
+                    con = new Connection("Controller", serverIP);
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input!");
+                    Thread.Sleep(3000);
+                }
+                if(choice.KeyChar.ToString() == "1" || choice.KeyChar.ToString() == "2")
+                {
+                    con.MessageReceivedEvent += Con_MessageReceived;
+                    con.ConnectionSuccessEvent += Con_ConnectionSuccess;
+                    con.ConnectionLostEvent += Con_ConnectionLost;
+                    con.ConnectionFailedEvent += Con_ConnectionFailedEvent;
+                    con.PingErrorEvent += Con_PingErrorEvent;
+                    con.PingEvent += Con_PingEvent;
+                    break;
+                }
+            }
 
             while (true)
             {
                 if(isConnected)
                 {
                     Thread.Sleep(100);
+                    string input = Console.ReadLine();
+                    if(input != string.Empty)
+                        con.Send(input);
                 }
                 if (!isConnected)
                 {
@@ -32,7 +59,8 @@ namespace RpiCar_Client
                     isConnected = con.Connect();
                     
                 }
-                Thread.Sleep(10000);
+                if(!isConnected)
+                    Thread.Sleep(10000);
             }
 
         }
@@ -56,7 +84,6 @@ namespace RpiCar_Client
 
         private static void Con_ConnectionSuccess(object sender, EventArgs e)
         {
-            Program p = sender as Program;
             Console.WriteLine("Connected!");
         }
 

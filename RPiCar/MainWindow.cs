@@ -20,7 +20,7 @@ namespace RPiCar
         //LEDOUT led = new LEDOUT();
         //IRIN IRReceiver = new IRIN(4);
         Connection con = new Connection("Car", "goy.ddns.net");
-        Car car = new Car(5, 6, 13, 19, 0, 26, 18);
+        Car car = new Car(5, 6, 13, 19, 0, 26);//Optionel Servo pin = 18 actuellement brisé donc désactiver!
         private bool w = false;
         private bool a = false;
         private bool s = false;
@@ -32,8 +32,7 @@ namespace RPiCar
             {
                 try
                 {
-                    con.Connect();
-                    if (con.IsConnected)
+                    if (con.Connect());
                     {
                         break;
                     }
@@ -43,10 +42,10 @@ namespace RPiCar
                     var value = MessageBox.Show(ex.Message);
                 }
             }
-            con.ConnectionSuccess += Con_ConnectionSuccess;
-            con.ConnectionLost += Con_ConnectionLost;
-            con.MessageReceived += Con_MessageReceived;
-            con.ConnectionFailed += Con_ConnectionFailed;
+            con.ConnectionSuccessEvent += Con_ConnectionSuccess;
+            con.MessageReceivedEvent += Con_MessageReceived;
+            con.ConnectionFailedEvent += Con_ConnectionFailed;
+            con.ConnectionLostEvent += Con_ConnectionLost;
             trackBarSpeed.Value = car.Speed;
             labelSpeed.Text = car.Speed.ToString();
             trackBarTurnSpeed.Maximum = 100;
@@ -69,9 +68,26 @@ namespace RPiCar
         }
         //Events methods
         //Event raised on failed connection
-        private void Con_ConnectionFailed(object sender, EventArgs e)
+        private void Con_ConnectionFailed(object sender, ExceptionEventArgs e)
         {
-            Console.WriteLine("Connection to server failed");
+            Console.WriteLine("Connection to server failed\n" + e.Message);
+        }
+        //Event raised when connection is lost
+        private void Con_ConnectionLost(object sender, ExceptionEventArgs e)
+        {
+            //TODO Modifier fonction connectionLost
+            var value = MessageBox.Show("Connection lost!\n" + e.Message, "Error", MessageBoxButtons.RetryCancel);
+            if (value == DialogResult.Retry)
+            {
+                if (!con.Connect())
+                {
+                    var val = MessageBox.Show("Cant reconnect closing program...", "Error", MessageBoxButtons.OK);
+                }
+            }
+            else
+            {
+                this.Close();
+            }
         }
         //Event raised on connection success
         private void Con_ConnectionSuccess(object sender, EventArgs e)
@@ -159,22 +175,6 @@ namespace RPiCar
                     default:
                         break;
                 }
-            }
-        }
-        //Event raised when connection is lost
-        private void Con_ConnectionLost(object sender, StringEventArgs e)
-        {
-            var value = MessageBox.Show("Connection lost!", "Error", MessageBoxButtons.RetryCancel);
-            if(value == DialogResult.Retry)
-            {
-                if (!con.Connect())
-                {
-                    var val = MessageBox.Show("Cant reconnect closing program...", "Error", MessageBoxButtons.OK);
-                }
-            }
-            else
-            {
-                this.Close();
             }
         }
 
